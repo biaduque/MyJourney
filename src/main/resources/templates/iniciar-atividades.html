@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <!-- <title>Responsive Sidebar Menu</title> -->
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<body>
+<input type="checkbox" id="check">
+<label for="check">
+    <i class="fas fa-bars" id="btn"></i>
+    <i class="fas fa-times" id="cancel"></i>
+</label>
+<div th:replace="fragments/menu :: menu"></div>
+
+<div class="histButtonBox">
+    <form action="#" th:action="@{/iniciar-atividades}" th:object="${execution}" method="post">
+        <select th:field="*{activity.id}">
+            <option th:each="act : ${activities}"
+                    th:value="${act.id}"
+                    th:text="${act.name}"></option>
+        </select>
+
+        <div class="form-group">
+            <label for="begin">Horario de início:</label>
+            <input class="form-control" type="time" th:field="*{begin}" id="begin" placeholder="begin">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('begin')}" th:errors="*{begin}"></div>
+        </div>
+        <div class="form-group">
+            <label for="end">Horario de término:</label>
+            <input class="form-control" type="time" th:field="*{end}" id="end" placeholder="end">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('end')}" th:errors="*{end}"></div>
+        </div>
+        <input type="submit" class="btn btn-success" value="Enviar">
+    </form>
+</div>
+</body>
+</html>

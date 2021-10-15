@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div class="sidebar" th:fragment="menu">
+    <header>
+        <div style="position:relative;width:5px;height:-5px;">
+            <img th:src="@{/imagens/logo.png}"
+                 style="position:absolute; width:40px; height:40px; top:15px; right:0;">
+        </div>
+    </header>
+    <header>My Journey</header>
+    <a href="#">
+        <i class="fas fa-user"></i>
+        <span>Perfil</span>
+    </a>
+    <a href="#">
+        <i class="fas fa-stopwatch"></i>
+        <span>Em andamento</span>
+    </a>
+    <a href="historico-hoje">
+        <i class="fas fa-chart-bar"></i>
+        <span>Histórico</span>
+    </a>
+    <a href="atividades">
+        <i class="fas fa-list"></i>
+        <span>Atividades</span>
+    </a>
+    <a href="iniciar-atividades">
+        <i class="fas fa-plus"></i>
+        <span>Iniciar atividades</span>
+    </a>
+    <a href="#">
+        <i class="fas fa-bell"></i>
+        <span>Lembretes</span>
+    </a>
+</div>
+
+</body>
+</html>

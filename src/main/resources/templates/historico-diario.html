@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <!-- <title>Responsive Sidebar Menu</title> -->
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+<body>
+<input type="checkbox" id="check">
+<label for="check">
+    <i class="fas fa-bars" id="btn"></i>
+    <i class="fas fa-times" id="cancel"></i>
+</label>
+<div th:replace="fragments/menu :: menu"></div>
+<div class="histButtonBox">
+    <h1>Meu Histórico</h1>
+    <button class="button" onclick="location.href = 'historico-mes';">Mês</button>
+    <button class="button" onclick="location.href = 'historico-semana';">Semana</button>
+    <button class="button buttonHoje">Hoje</button>
+</div>
+<div class="data">
+    <h1>
+        <td th:text="${#temporals.format(dataExecucao, 'dd/MM')}"/>
+    </h1>
+</div>
+<!-- CRIAÇÃO DO GRÁFICO -->
+<canvas id="myChart2" class="chartjs" style="display: block; width: 770px; height: 385px"></canvas>
+
+<script type="text/javascript" th:inline="javascript">
+    var xValues = [[${activities}]]
+    var yValues = [[${duration}]]
+    var barColors = ["rgba(255, 99, 132, 0.4)", "rgba(255, 159, 64, 0.4)", "rgba(255, 205, 86, 0.4)", "rgba(75, 192, 192, 0.4)", "rgba(54, 162, 235, 0.4)", "rgba(153, 102, 255, 0.4)", "rgba(201, 203, 207, 0.4)"]
+
+    console.log(xValues)
+    console.log(yValues)
+
+    new Chart("myChart2", {
+        type: "bar",
+        data: {
+            labels: xValues,
+            datasets: [{
+                label: "Atividades do dia",
+                data: yValues,
+                fill: false,
+                backgroundColor: barColors,
+                borderWidth: 1
+            }]
+        }, options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+</body>
+</html>

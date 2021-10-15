@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <!-- <title>Responsive Sidebar Menu</title> -->
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<body>
+<input type="checkbox" id="check">
+<label for="check">
+    <i class="fas fa-bars" id="btn"></i>
+    <i class="fas fa-times" id="cancel"></i>
+</label>
+<div th:replace="fragments/menu :: menu"></div>
+<div class="histButtonBox">
+    <h1>Meu Histórico</h1>
+    <button class="button buttonMes">Mês</button>
+    <button class="button" onclick="location.href = 'historico-semana';">Semana</button>
+    <button class="button" onclick="location.href = 'historico-hoje';">Hoje</button>
+</div>
+<div class="data">
+    <h1>
+        <td th:text="${#temporals.format(dataExecucao, 'dd/MM')}"/>
+    </h1>
+</div>
+<!-- CRIAÇÃO DO GRÁFICO -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="../static/js/botoes.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    google.charts.load("current", {packages: ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var tes = ['01/08', 10, 24, 20, 32, 18, 5, 'asddd'];
+        console.log(tes)
+        var columns = [[${column}]];
+        console.log(columns)
+        var data = google.visualization.arrayToDataTable([
+            ['Genre', 'Lab. Eng. de Software', 'IHC', 'Proj. Empreendedores',
+                'Grafos', 'Compiladores', 'Metodologia de Pesquisa',
+                {role: 'annotation'}],
+            columns,
+            tes,
+
+            ['02/08', 16, 22, 23, 30, 16, 9, ''],
+            ['03/08', 28, 19, 29, 30, 12, 13, ''],
+            ['04/08', 10, 24, 20, 32, 18, 5, ''],
+            ['05/08', 16, 22, 23, 30, 16, 9, ''],
+            ['06/08', 28, 19, 29, 30, 12, 13, ''],
+            ['07/08', 28, 19, 29, 30, 12, 13, ''],
+            ['08/08', 10, 24, 20, 32, 18, 5, ''],
+            ['09/08', 16, 22, 23, 30, 16, 9, ''],
+            ['10/08', 28, 19, 29, 30, 12, 13, ''],
+            ['11/08', 10, 24, 20, 32, 18, 5, ''],
+            ['12/08', 16, 22, 23, 30, 16, 9, ''],
+            ['13/08', 28, 19, 29, 30, 12, 13, ''],
+            ['14/08', 10, 24, 20, 32, 18, 5, ''],
+            ['15/08', 16, 22, 23, 30, 16, 9, ''],
+            ['16/08', 28, 19, 29, 30, 12, 13, ''],
+            ['17/08', 10, 24, 20, 32, 18, 5, ''],
+            ['18/08', 16, 22, 23, 30, 16, 9, ''],
+            ['19/08', 28, 19, 29, 30, 12, 13, ''],
+            ['20/08', 28, 19, 29, 30, 12, 13, ''],
+            ['21/08', 10, 24, 20, 32, 18, 5, ''],
+            ['22/08', 16, 22, 23, 30, 16, 9, ''],
+            ['23/08', 28, 19, 29, 30, 12, 13, ''],
+            ['24/08', 10, 24, 20, 32, 18, 5, ''],
+            ['25/08', 16, 22, 23, 30, 16, 9, ''],
+            ['26/08', 28, 19, 29, 30, 12, 13, ''],
+            ['27/08', 28, 19, 29, 30, 12, 13, ''],
+            ['28/08', 10, 24, 20, 32, 18, 5, ''],
+            ['29/08', 16, 22, 23, 30, 16, 9, ''],
+            ['30/08', 28, 19, 29, 30, 12, 13, '']
+        ]);
+
+        var view = new google.visualization.DataView(data);
+
+        var options = {
+            width: 1300,
+            height: 400,
+            legend: {position: 'bottom', maxLines: 3},
+            bar: {groupWidth: '75%'},
+            isStacked: true,
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+        chart.draw(view, options);
+    }
+
+    /*]]>*/
+</script>
+<div id="columnchart_values" class="chartMes"></div>
+</body>
+</html>

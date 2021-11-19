@@ -1,5 +1,9 @@
 package com.faculdade.MyJourney.models;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,14 +14,16 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@ToString
 public class Student {
+
     @Id
     @GeneratedValue
     Long id;
 
     private String name;
-    private String email;
-    private String password;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Activity> listActivity;
@@ -25,70 +31,22 @@ public class Student {
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reminder> listReminder;
 
-    public Student(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-
-    public Student() {
-
-    }
-
-    public Student(Student student) {
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setHistoric(Activity activity) {
-        this.listActivity.add(activity);
+    public void setHisto1ric(Activity activity) {
+        if (listActivity != null) {
+            this.listActivity.add(activity);
+        } else {
+            setListActivity(List.of(activity));
+        }
     }
 
     public void setReminder(Reminder reminder) {
         this.listReminder.add(reminder);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setReminder(int hour, int minutes){
+    public void setReminder(int hour, int minutes) {
         Reminder reminder = new Reminder();
-        LocalTime time= LocalTime.now();
+        LocalTime time = LocalTime.now();
         reminder.setDate(time);
     }
 
-    public List<Activity> getListActivity() {
-        return listActivity;
-    }
-
-    public List<Reminder> getListReminder() {
-        return listReminder;
-    }
-
-    public void setListActivity(List<Activity> listActivity) {
-        this.listActivity = listActivity;
-    }
-
-    public void setListReminder(List<Reminder> listReminder) {
-        this.listReminder = listReminder;
-    }
 }

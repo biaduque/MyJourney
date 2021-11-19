@@ -2,6 +2,7 @@ package com.faculdade.MyJourney.controllers;
 
 import com.faculdade.MyJourney.Services.ActivityService;
 import com.faculdade.MyJourney.Services.ExecutionService;
+import com.faculdade.MyJourney.Services.StudentService;
 import com.faculdade.MyJourney.models.Activity;
 import com.faculdade.MyJourney.models.Execution;
 import com.faculdade.MyJourney.repositorys.ActivityRepository;
@@ -14,21 +15,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.Collections;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class ActivityController {
 
-    private final ActivityRepository activityRepository;
-
     private final ActivityService activityService;
     private final ExecutionService executionService;
+    private final StudentService studentService;
 
     @GetMapping("/atividades")
     public String getAtividades(Model model) {
-        var activities = activityService.listAllActivities();
-        model.addAttribute("activities", activities);
+        var activities = studentService.getStudentFromLogin().getListActivity();
+        model.addAttribute("activities", activities == null ? Collections.emptyList() : activities);
         model.addAttribute("activity", new Activity());
         return "atividades";
     }
@@ -42,8 +43,8 @@ public class ActivityController {
 
     @GetMapping("/iniciar-atividades")
     public String iniciarAtividades(Model model) {
-        var activities = activityService.listAllActivities();
-        model.addAttribute("activities", activities);
+        var activities = studentService.getStudentFromLogin().getListActivity();
+        model.addAttribute("activities", activities == null ? Collections.emptyList() : activities);
         model.addAttribute("execution", new Execution());
         return "iniciar-atividades";
     }

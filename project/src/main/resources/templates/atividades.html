@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <!-- <title>Responsive Sidebar Menu</title> -->
     <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/atividades.css}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 </head>
@@ -15,22 +16,20 @@
 </label>
 <div th:replace="fragments/menu :: menu"></div>
 
-<tr th:each="act: ${activities}">
-    <td th:text="${act.id}"/>
-    <td th:text="${act.name}"/>
-    <td th:text="${act.color}"/>
-</tr>
-<div class="histButtonBox">
+<div class="ativBox">
+    <h1>Criar Atividade</h1>
+    <h2>Crie aqui uma nova atividade para ser realizada</h2>
+
     <form action="#" th:action="@{/atividades}" th:object="${activity}" method="post">
 
         <div class="form-group">
             <label for="name">Nome da atividade:</label>
-            <input class="form-control" type="text" th:field="*{name}" id="name" placeholder="name">
+            <input class="form-control" type="text" th:field="*{name}" id="name" placeholder="Nome">
             <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
         </div>
         <div class="form-group">
             <label for="color">Cor da atividade:</label>
-            <input class="form-control" number="time" th:field="*{color}" id="color" placeholder="color">
+            <input class="form-control" number="time" th:field="*{color}" id="color" placeholder="Cor">
             <div class="alert alert-warning" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
         </div>
         <input type="submit" class="btn btn-success" value="Enviar">

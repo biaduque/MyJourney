@@ -7,13 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 </head>
+
 <body>
 <input type="checkbox" id="check">
 <label for="check">
     <i class="fas fa-bars" id="btn"></i>
     <i class="fas fa-times" id="cancel"></i>
 </label>
+
 <div th:replace="fragments/menu :: menu"></div>
+
 <div class="histButtonBox">
     <h1>Meu Histórico</h1>
     <button class="button buttonMes">Mês</button>
@@ -26,72 +29,52 @@
     </h1>
 </div>
 <!-- CRIAÇÃO DO GRÁFICO -->
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script src="../static/js/botoes.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<div class="chart-wrapper">
+    <canvas id="myChart" class="chartjs" style="display: block; width: 750px; height: 385px;"></canvas>
+</div>
 
 <script type="text/javascript" th:inline="javascript">
-    /*<![CDATA[*/
-    google.charts.load("current", {packages: ['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
+    var diasSemana = [[${dias}]]
+    var xValues = [[${activities}]]
+    var yValues = [[${durations}]]
+    var barColors = ["rgba(255, 99, 132, 0.4)", "rgba(255, 159, 64, 0.4)", "rgba(255, 205, 86, 0.4)", "rgba(75, 192, 192, 0.4)", "rgba(54, 162, 235, 0.4)", "rgba(153, 102, 255, 0.4)", "rgba(201, 203, 207, 0.4)"]
 
-    function drawChart() {
-        var tes = ['01/08', 10, 24, 20, 32, 18, 5, 'asddd'];
-        console.log(tes)
-        var columns = [[${column}]];
-        console.log(columns)
-        var data = google.visualization.arrayToDataTable([
-            ['Genre', 'Lab. Eng. de Software', 'IHC', 'Proj. Empreendedores',
-                'Grafos', 'Compiladores', 'Metodologia de Pesquisa',
-                {role: 'annotation'}],
-            columns,
-            tes,
+    var datasetValues = []
 
-            ['02/08', 16, 22, 23, 30, 16, 9, ''],
-            ['03/08', 28, 19, 29, 30, 12, 13, ''],
-            ['04/08', 10, 24, 20, 32, 18, 5, ''],
-            ['05/08', 16, 22, 23, 30, 16, 9, ''],
-            ['06/08', 28, 19, 29, 30, 12, 13, ''],
-            ['07/08', 28, 19, 29, 30, 12, 13, ''],
-            ['08/08', 10, 24, 20, 32, 18, 5, ''],
-            ['09/08', 16, 22, 23, 30, 16, 9, ''],
-            ['10/08', 28, 19, 29, 30, 12, 13, ''],
-            ['11/08', 10, 24, 20, 32, 18, 5, ''],
-            ['12/08', 16, 22, 23, 30, 16, 9, ''],
-            ['13/08', 28, 19, 29, 30, 12, 13, ''],
-            ['14/08', 10, 24, 20, 32, 18, 5, ''],
-            ['15/08', 16, 22, 23, 30, 16, 9, ''],
-            ['16/08', 28, 19, 29, 30, 12, 13, ''],
-            ['17/08', 10, 24, 20, 32, 18, 5, ''],
-            ['18/08', 16, 22, 23, 30, 16, 9, ''],
-            ['19/08', 28, 19, 29, 30, 12, 13, ''],
-            ['20/08', 28, 19, 29, 30, 12, 13, ''],
-            ['21/08', 10, 24, 20, 32, 18, 5, ''],
-            ['22/08', 16, 22, 23, 30, 16, 9, ''],
-            ['23/08', 28, 19, 29, 30, 12, 13, ''],
-            ['24/08', 10, 24, 20, 32, 18, 5, ''],
-            ['25/08', 16, 22, 23, 30, 16, 9, ''],
-            ['26/08', 28, 19, 29, 30, 12, 13, ''],
-            ['27/08', 28, 19, 29, 30, 12, 13, ''],
-            ['28/08', 10, 24, 20, 32, 18, 5, ''],
-            ['29/08', 16, 22, 23, 30, 16, 9, ''],
-            ['30/08', 28, 19, 29, 30, 12, 13, '']
-        ]);
-
-        var view = new google.visualization.DataView(data);
-
-        var options = {
-            width: 1300,
-            height: 400,
-            legend: {position: 'bottom', maxLines: 3},
-            bar: {groupWidth: '75%'},
-            isStacked: true,
-        };
-        var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
-        chart.draw(view, options);
+    for (var i = 0; i < xValues.length; i++) {
+        datasetValues.push({
+            label: xValues[i],
+            data: yValues[i],
+            backgroundColor: barColors[i]
+        })
     }
 
-    /*]]>*/
+    console.log(datasetValues)
+
+    new Chart("myChart", {
+        type: 'bar',
+        data: {
+            labels: diasSemana, // responsible for how many bars are gonna show on the chart
+
+            datasets: datasetValues
+        },
+        options: {
+            responsive: false,
+            legend: {
+                position: 'right' // place legend on the right side of chart
+            },
+            scales: {
+                xAxes: [{
+                    stacked: true // this should be set to make the bars stacked
+                }],
+                yAxes: [{
+                    stacked: true // this also..
+                }]
+            }
+        }
+    });
 </script>
-<div id="columnchart_values" class="chartMes"></div>
+<div id="columnchart_values" class="chartSemana"></div>
 </body>
 </html>

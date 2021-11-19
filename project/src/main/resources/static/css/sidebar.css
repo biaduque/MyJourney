@@ -155,9 +155,17 @@ button:hover{
 .histButtonBox h1{
   position: relative;
   top: 20%;
-  left: 33%;
+  left: 6%;
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+  font-size: 2.5rem;
+  letter-spacing: 3px;
+  max-width: 500px;
+  text-align: center;
+  line-height: 0;
   font-family: 'Roboto', sans-serif;
-  font-size: 30px;
+  text-transform: none;
+  font-weight: 800;
 }
 .buttonHoje{
   background-color: #A9F1DF;
@@ -188,18 +196,14 @@ button:hover{
   font-family: 'Roboto', sans-serif;
   font-size: 30px;
 }
-.chartDia{
-  margin: -100px auto;
-  width: 1240px;
-  height: 300px;
+
+.chart-wrapper {
+  height: 400px;
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
-.chartSemana{
-  margin: -100px auto;
-  width: 1320px;
-  height: 300px;
-}
-.chartMes{
-  margin: -100px auto;
-  width: 1320px;
-  height: 300px;
+
+.chart-wrapper canvas{
+  margin: 0 auto;
 }

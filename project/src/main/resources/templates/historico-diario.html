@@ -28,7 +28,9 @@
     </h1>
 </div>
 <!-- CRIAÇÃO DO GRÁFICO -->
-<canvas id="myChart2" class="chartjs" style="display: block; width: 770px; height: 385px"></canvas>
+<div class="chart-wrapper">
+    <canvas id="myChart2" class="chartjs" style="display: block; width: 750px; height: 385px;"></canvas>
+</div>
 
 <script type="text/javascript" th:inline="javascript">
     var xValues = [[${activities}]]
@@ -50,6 +52,8 @@
                 borderWidth: 1
             }]
         }, options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 yAxes: [{
                     ticks: {

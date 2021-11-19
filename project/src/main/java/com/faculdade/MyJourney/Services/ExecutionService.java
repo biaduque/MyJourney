@@ -15,9 +15,13 @@ public class ExecutionService {
 
     private final ExecutionRepository executionRepository;
     private final ActivityRepository activityRepository;
+
     @Transactional
     public Execution save(Execution execution) {
-        execution.setActivity(activityRepository.findById(execution.getActivity().getId()).orElseThrow(NullPointerException::new));
+        execution.setActivity(activityRepository.findById(execution
+                        .getActivity()
+                        .getId())
+                .orElseThrow(NullPointerException::new));
         execution.setDate(LocalDate.now());
         return executionRepository.save(execution);
     }
